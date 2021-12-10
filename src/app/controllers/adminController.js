@@ -119,7 +119,7 @@ class adminController {
             }
 
             case 'forceDelete':{
-                Course.deleteMany({_id: {$in: req.body.fabricIds }}) // xóa 1 giá trị dựa vào giá trị tìm là ID truyền vào
+                Fabric.deleteMany({_id: {$in: req.body.fabricIds }}) // xóa 1 giá trị dựa vào giá trị tìm là ID truyền vào
                     .then(() => res.redirect('back'))// thành công render lại giao diện list khóa học
                     .catch(next)
                 break;
