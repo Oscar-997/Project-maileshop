@@ -1,0 +1,181 @@
+<!-- top navigation bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container-fluid">
+            {{> adminHeader}}
+        </div>
+    </nav>
+    <!-- top navigation bar -->
+    <!-- offcanvas -->
+    {{> adminOffcanvas }}
+
+<!-- Content -->
+<main class="mt-5 pt-3">
+  <form name="container-form" method="POST" action="/admin/handle-restore-and-forceDelete">
+      <div class="container-fluid">
+          <div class="d-flex justify-content-between">
+            <a class="btn btn-primary" href="/admin/listProducts" role="button">
+            <i class="bi bi-arrow-left"></i>
+                Quay lại danh sách sản phẩm
+            </a>
+          </div>
+          <div class="mt-4 d-flex align-items-center">
+            <div class="form-check ms-3">
+              <input class="form-check-input" type="checkbox" value="" id="checkbox-all">
+              <label class="form-check-label" for="checkbox-all">
+                Chọn tất cả
+              </label>
+            </div>
+
+            <select class="select-all-options ms-3" name="action" required>
+              <option value="">Chọn...</option>
+              <option value="restore">Khôi phục</option>
+              <option value="forceDelete">Xóa vĩnh viễn</option>
+            </select>
+
+            <button type="submit" class="btn btn-primary btn-sm ms-3 check-all-submit-btn" disabled>Áp dụng</button>
+          </div>
+          {{!-- admin --}}
+          <table class="table">
+            <h1>Danh sách sản phẩm mới</h1>
+            <thead>
+              <tr>
+                <th scope="col">Lựa chọn</th>
+                <th scope="col">STT</th>
+                <th scope="col">Tên khóa học</th>
+                <th scope="col">Mô tả</th>
+                <th scope="col">Thời gian xóa</th>
+                <th scope="col">Quản lý</th>
+            </tr>
+            </thead>
+            <tbody>
+              {{#each fabrics}}
+              <tr>
+                <td>
+                  <div class="form-check">
+                    <input class="form-check-input" name="fabricIds[]" type="checkbox" value="{{this._id}}">
+                  </div>
+                </td>
+                <th scope="row">
+                  {{sum @index 1}}
+                </th>
+                <td>{{this.name}}</td>
+                <td>{{this.description}}</td>
+                <td>{{this.deletedAt}}</td>
+                <td>
+                  <a href="" class="btn btn-link btn-restore text-decoration-none" data-id="{{this._id}}">Khôi phục</a>
+                  <a href="" class="btn btn-link text-decoration-none" data-bs-toggle="modal" data-bs-target="#deleteFabricModal"
+                  data-id="{{this._id}}">
+                    Xóa vĩnh viễn
+                  </a>
+                </td>
+              </tr>
+              {{else}}
+              <tr>
+                <td colspan="5" class="text-center">
+                    <i class="bi bi-trash"></i>
+                    Thùng rác trống.
+                </td>
+              </tr>
+              {{/each}}
+            </tbody>
+
+          </table>
+      </div>
+  </form>
+</main>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="deleteFabricModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Xóa vĩnh viễn sản phẩm</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Admin chắc chắn muốn xóa vĩnh viễn sản phẩm này?
+      </div>
+      <div class="modal-footer">
+        <button id="btn-delete-fabric" type="button" class="btn btn-danger">Xóa vĩnh viễn</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{{!-- form xóa vĩnh viễn --}}
+<form method="POST" name="delete-fabric-form"></form>
+
+{{!-- form khôi phục lại --}}
+<form method="POST" name="restore-fabric-form"></form>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    var fabricId;
+
+    var btnDeleteFabric = document.getElementById('btn-delete-fabric')
+
+    var formDeleteFabric = document.forms['delete-fabric-form']
+
+    var restoreForm = document.forms['restore-fabric-form']
+
+    var restoreBtn = $('.btn-restore')
+
+    var checkboxAll = $('#checkbox-all')
+
+    var fabricCheckboxItem = $('input[name="fabricIds[]"]')
+
+    var checkAllSubmitBtn = $('.check-all-submit-btn') // nút áp dụng
+
+    var containerForm = document.forms['container-form'] // form tổng 
+
+
+    $('#deleteFabricModal').on('show.bs.modal', function (event) {
+          var button = $(event.relatedTarget)
+          fabricId = button.data('id') 
+    });
+
+    btnDeleteFabric.onclick = function() {
+      formDeleteFabric.action = '/admin/' + fabricId + '/forceDelete/' +  '?_method=DELETE'
+      formDeleteFabric.submit();
+    }
+
+    // tạo vòng for of để lặp qua từng phần tử mới lấy được id cần tìm khi nhấn vào nút
+        // khôi phục
+        for (var restore of restoreBtn){
+            restore.addEventListener('click', function(e) {
+                e.preventDefault();
+                var fabricId = $(this).data('id')
+                restoreForm.action = '/admin/' +  fabricId + '/restore?_method=PATCH'
+                restoreForm.submit()
+            })
+        }
+
+        // khi click vào check select all
+      checkboxAll.change(function() {
+        var isCheckedAll = $(this).prop('checked');
+        fabricCheckboxItem.prop('checked', isCheckedAll)
+        renderCheckAllSubmitBtn()
+      })
+
+    // khi click vào items mà nếu check đủ tất cả sẽ chọn lun checkAll
+      fabricCheckboxItem.change(function() {
+        var isCheckedAll = fabricCheckboxItem.length === $('input[name="fabricIds[]"]:checked').length
+        checkboxAll.prop('checked', isCheckedAll)
+        renderCheckAllSubmitBtn()
+      })
+
+      // hàm này dùng để hiện disabled cho button áp dụng hay ko 
+      function renderCheckAllSubmitBtn() {
+        var checkedCount = $('input[name="fabricIds[]"]:checked').length
+        if(checkedCount > 0) {
+          checkAllSubmitBtn.attr('disabled', false)
+        }else{
+          checkAllSubmitBtn.attr('disabled', true)
+        }
+      }
+
+  })
+</script>

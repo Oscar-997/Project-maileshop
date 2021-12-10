@@ -1,0 +1,238 @@
+<div class="show-product">
+    {{> header}}
+
+    <div class="container">
+        <div class="single_product">
+            <div class="container-fluid" style=" background-color: #fff; padding: 11px;">
+                <form  action="/cart/add" method="post">
+                    <div class="row">
+                        <div class="col-lg-2 order-lg-1 order-2">
+                            <ul class="image_list">
+                                <li data-image="{{fabrics.image}}"><img src="{{fabrics.image}}" alt=""></li>
+                                <li data-image="{{fabrics.image}}"><img src="{{fabrics.image}}" alt=""></li>
+                                <li data-image="{{fabrics.image}}"><img src="{{fabrics.image}}" alt=""></li>
+                            </ul>
+                        </div>
+                        <div class="col-lg-4 order-lg-2 order-1">
+                            <div class="image_selected"><img src="{{fabrics.image}}" id="image"  name="image" alt=""></div>
+                        </div>
+                        <div class="col-lg-6 order-3">
+                            <div class="product_description">
+                                <nav>
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
+                                        <li class="breadcrumb-item"><a href="/newPro">Sản phẩm mới</a></li>
+                                        <li class="breadcrumb-item active">Sản phẩm hiện tại</li>
+                                    </ol>
+                                </nav>
+                                <div class="product_name">
+                                    <p>{{{fabrics.name}}}</p>
+                                    </div>
+                                <div class="product-rating">
+                                    <span class="badge badge-success" style="color:gold">
+                                        <i class="bi bi-star"></i> 4.5 Star
+                                    </span> 
+                                    <span class="rating-review">35 Ratings & 45 Reviews</span>
+                                </div>
+                                <div> 
+                                    <span class="product_price product-price-minimum" id="price" name="price">
+                                        {{fabrics.price}} VNĐ
+                                    </span> 
+                                    <strike class="product_discount"> 
+                                        <span class="product-price-minimum" style='color:black'>
+                                            {{fabrics.price}}
+                                        <span> 
+                                    </strike> 
+                                </div>
+                                <hr class="singleline">
+                                <div> 
+                                    <span class="product_info">Sản phẩm được chứng nhận từ Fabric World<span><br> 
+                                    <span class="product_info" id="description" name="description">{{fabrics.description}}</span><br> 
+                                    <span class="product_info">FreeShip Toàn quốc<span><br> 
+                                    <span class="product_info">Tặng phụ kiện khi may áo sơ mi<span>
+                                </div>
+                                <div>
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <div class="br-dashed">
+                                                <div class="row">
+                                                    <div class="col-md-3 col-xs-3"> <img src="https://img.icons8.com/color/48/000000/price-tag.png"> </div>
+                                                    <div class="col-md-9 col-xs-9 ms-4">
+                                                        <div class="pr-info"> <span class="break-all">Giảm giá 10% cho sản phẩm thứ 3</span> </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-7"></div>
+                                    </div>
+                                </div>
+                                <form class="product-form">
+                                    <div class="hidden-select"><select class="hide product-variants"></select></div>
+                                    <input type="hidden" name="id"/>
+                                    <div class="d-flex align-items-center mt-4">
+                                        <input type="hidden" name="quantity" id="realQuantity quantity" value="1" />
+                                        <input type='button' value='-' class='qtyminus btn-minus' field='fabricquantity' />
+                                        <input type="text" class="units-quantity fabric-units-input" value="1" name="fabricquantity" />
+                                        <input type='button' value='+' class='qtyplus btn-plus' field='fabricquantity' />
+                                        <div class="length-stats ms-4" >
+                                            <span class="large-text">
+                                                <span id="metre-result">0</span>
+                                                Mét
+                                            </span> 
+                                            (<span id="yard-result">0</span> yards)
+                                        </div>
+                                    </div>
+                                        <div class="add-to-cart mt-4 d-flex align-items-center">
+                                            <div class="button-margin">
+                                                <button type="submit" class="shop-button add-to-cart">
+                                                    Thêm vào giỏ hàng
+                                                </button>
+                                            </div>
+                                            <span class="text-uppercase ms-4 ">
+                                                <strong><span class="fs-2" name='total-price totalPrice' id="total-price-result">0</span></strong>
+                                            </span>
+                                            <span>&nbsp; VNĐ</span>
+                                            <span> &nbsp; (Tổng tiền)</span>
+                                            <div id="variant-inventory"></div>
+                                        </div>
+                                    </div>
+                                </form>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    {{> footer}}
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+
+    $(document ).ready(function() {
+    
+            $(".units-quantity").blur();
+            
+            delayedCalculation()
+            
+            $(".units-quantity").keyup(function(event) {
+                calculate(getUnits())
+            });
+            
+            $("#currencies").change(function() {
+                $('#total-price-result').text('-')
+                delayedCalculation();
+            });
+            
+            function delayedCalculation() {
+                setTimeout(function(){
+                    calculate(getUnits());
+                }, 100);
+            }
+
+            function getUnits() {
+                units = Number($(".units-quantity").val());
+                if (isNaN(units)) {
+                return 0;
+                }
+                else {
+                var currentVal = $('.fabric-units-input').val() * 4;
+                
+                //console.log('this: ' + currentVal);
+                $('#realQuantity').val(currentVal);
+                return units;
+                };
+            }
+            
+            function getUnitPrice() {
+                var priceText = $(".product-price-minimum").text()
+                var currencySymbol = priceText.charAt(0)
+                var price = priceText.match(/.*?[\$€£](.*)\ */)
+                if (priceText) {
+                    if(price == null) {
+                        var priceNice = priceText.split(currencySymbol);
+                        var floatPrice = parseFloat(priceNice[1])
+                        var roundedPrice = round(floatPrice, 2)
+                        return {currency: currencySymbol, price: roundedPrice}	
+                    }else {
+                        var floatPrice = parseFloat(price[1])
+                        var roundedPrice = round(floatPrice, 2)
+                        return {currency: currencySymbol, price: roundedPrice}
+                    }
+                }
+            }
+            
+            function round(value, decimals) {
+                return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
+            }
+            
+            function calculate(units) {
+                var units = units;
+                if (units > 5) {
+                $('.max-unit-warning').removeClass('hide')
+                }
+                else {
+                $('.max-unit-warning').addClass('hide')
+                }
+                var metres = (units)
+                var yards = (units * 1.09361)
+                var unitPriceObject = getUnitPrice()
+                var totalPrice = (units * unitPriceObject.price *1)
+                var input = $('.units-quantity').val()
+                $('#metre-result').text(metres.toFixed(2))
+                $('#yard-result').text(yards.toFixed(2))
+                $('#input-val').text(input + 'Metre');
+                if (totalPrice) {
+                var decoratedPrice = unitPriceObject.currency + totalPrice.toFixed(0)
+                $('#total-price-result').text(decoratedPrice)
+                }
+                else {
+                $('#total-price-result').text('-')
+                }
+            }
+            
+            // This button will increment the value
+            $('.qtyplus').click(function(e){
+                //console.log('plus');
+                // Stop acting like a button
+                e.preventDefault();
+                // Get the field name
+                fieldName = $(this).attr('field');
+                // Get its current value
+                var currentVal = parseFloat($('input[name='+fieldName+']').val());
+                
+                // If is not undefined
+                if (!isNaN(currentVal)) {
+                    // Increment
+                    $('input[name='+fieldName+']').val(currentVal + 0.5);
+                } else {
+                    // Otherwise put a 0 there
+                    $('input[name='+fieldName+']').val(0);
+                }
+                calculate(getUnits())
+            });
+
+
+            // This button will decrement the value till 0
+            $(".qtyminus").click(function(e) {
+                //console.log('minus');
+                // Stop acting like a button
+                e.preventDefault();
+                // Get the field name
+                fieldName = $(this).attr('field');
+                // Get its current value
+                var currentVal = parseFloat($('input[name='+fieldName+']').val());
+                // If it isn't undefined or its greater than 0
+                if (!isNaN(currentVal) && currentVal > 0) {
+                    // Decrement one
+                    $('input[name='+fieldName+']').val(currentVal - 0.5);
+                } else {
+                    // Otherwise put a 0 there
+                    $('input[name='+fieldName+']').val(0);
+                }
+                calculate(getUnits())   
+            });
+    });
+
+})
+</script>
