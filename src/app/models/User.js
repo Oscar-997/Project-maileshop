@@ -7,7 +7,6 @@ const mongooseDelete = require('mongoose-delete');
 
 const User = new Schema({
     username: String,
-    email: String,
     password: String
 },{
     timestamps:true,
