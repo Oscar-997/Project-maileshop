@@ -2,9 +2,9 @@
   "name": "project-mailefabric",
   "version": "1.0.0",
   "description": "project xin viec",
-  "main": "src/index.js",
+  "main": "src/server.js",
   "scripts": {
-    "start": "nodemon --inspect src/index.js",
+    "start": "nodemon --inspect src/server.js",
     "watch": "sass --watch src/resources/sass/app.scss src/public/css/app.css",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -21,7 +21,8 @@
     "method-override": "^3.0.0",
     "mongoose": "^6.0.13",
     "mongoose-delete": "^0.5.4",
-    "mongoose-slug-generator": "^1.0.4"
+    "mongoose-slug-generator": "^1.0.4",
+    "paginationjs": "^2.1.5"
   },
   "devDependencies": {
     "method": "^2.0.0",
