@@ -4,13 +4,8 @@ const { engine } = require('express-handlebars')
 const app = express();
 const methodOverride = require('method-override')
 const morgan = require('morgan')
-const cookieParser = require('cookie-parser')
-const bodyParser = require("body-parser");
-const cors = require("cors");
-var corsOptions = {
-  origin: "http://localhost:8081"
-};
 const port = 3000;
+
 
 const route = require('./routes/index.js');
 const db = require('./config/db/index')
@@ -18,10 +13,6 @@ const db = require('./config/db/index')
 db.connect()
 
 // app.use(morgan('combined'))
-
-app.use(cors(corsOptions));
-
-app.use(cookieParser())
 
 app.use(methodOverride('_method'))
 

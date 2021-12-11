@@ -9,12 +9,15 @@ class newProController {
         var page = req.query.page
         if(page) {
             page = parseInt(page)
+            if(page < 1) {
+                page = 1
+            }
             var skip = (page - 1) * PAGE_SIZE;
             
             Fabric.find({})
                 .skip(skip)
                 .limit(PAGE_SIZE)
-                .then(fabric => res.render('./newProduct/newPro.hbs', {
+                .then(fabric => res.render('./newProduct/newPro', {
                     fabric: multipleMongooseToObject(fabric)
                 }))
                 .catch(next)
