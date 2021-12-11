@@ -8,24 +8,8 @@
                     {{> filter}}
                 </div>
                 <div class="col-xl-9 col-lg-9 col-sm-12">
-                    <div class="row">
-                       {{#each fabric}}
-                            <div class="col-sm-6 col-lg-4">
-                                <div class="card card-item" style="width: 16rem;">
-                                    <a href="/newPro/{{this.slug}}">
-                                        <img class="card-img-top img-products" src="{{this.image}}" alt="Card image cap">
-                                    </a>
-                                    <div class="card-body">
-                                        <h5 class="card-title">{{this.name}}</h5>
-                                        <p class="card-text">{{this.description}} </p>
-                                        <p class="card-text">{{this.price}} VNĐ</p>
-                                        <a href="/newPro/{{this.slug}}" class="btn btn-primary">Xem sản phẩm</a>
-                                    </div>
-                                    
-                                </div>
-                            </div>
-                        {{/each}}
-                    </div> 
+                    <div id="data-container" class="row"></div>
+                    <div id="pagination-container"></div>
                 </div>
             </div>
         </div>
@@ -33,3 +17,55 @@
 
     {{> footer}}
 </div>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+
+        $('#pagination-container').pagination({
+            dataSource: '/newPro?page=1',
+            locator: 'fabric',
+            totalNumberLocator: function(response) {
+                return response.total;
+            },
+            pageSize: 6,
+            afterPageOnClick: function(e, pageNumber) {
+                loadPage(pageNumber)
+            }
+        })
+
+        // load page
+        function loadPage(page) {
+            $('#data-container').html('')
+            $.ajax({
+                url: '/newPro?page=' + page, 
+            })
+            .then(rs=> {
+                console.log(rs.totalPage)
+                for (var i=0; i<rs.fabric.length; i++) {
+                    const element = rs.fabric[i]
+                    var item = $(`<div class="col-sm-6 col-lg-4">
+                                    <div class="card card-item" style="width: 16rem;">
+                                        <a href="/newPro/${element.slug}">
+                                            <img class="card-img-top img-products" src="${element.image}" alt="Card image cap">
+                                        </a>
+                                        <div class="card-body">
+                                            <h5 class="card-title">${element.name}</h5>
+                                            <p class="card-text">${element.description}</p>
+                                            <p class="card-text">${element.price}VNĐ</p>
+                                            <a href="/newPro/${element.slug}" class="btn btn-primary">Xem sản phẩm</a>
+                                        </div>
+                                    </div>
+                                </div>`)
+                    $('#data-container').append(item)
+                }
+            })
+            .catch(error=> {
+                console.error(error)
+            })
+        }
+
+        loadPage(1)
+    })
+</script>
+

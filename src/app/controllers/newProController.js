@@ -17,9 +17,17 @@ class newProController {
             Fabric.find({})
                 .skip(skip)
                 .limit(PAGE_SIZE)
-                .then(fabric => res.render('./newProduct/newPro', {
-                    fabric: multipleMongooseToObject(fabric)
-                }))
+                .then(fabric => {
+                    Fabric.countDocuments({})
+                        .then((total) => {
+                            var totalPage = Math.ceil(total / PAGE_SIZE)
+                            res.json({
+                                total: total,
+                                totalPage: totalPage,
+                                fabric: fabric
+                            })
+                        })
+                })
                 .catch(next)
 
         }else{
