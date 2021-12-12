@@ -15,8 +15,7 @@ class userController {
         const formData = req.body
         const user = new User(formData)
         User.findOne({
-            email: formData.email,
-            name: formData.name
+            username: formData.username
         })
             .then(data => {
                 if(data) {
@@ -39,23 +38,21 @@ class userController {
 
     login(req, res, next) {
         User.findOne({
-            email: req.body.email,
+            username: req.body.username,
             password: req.body.password
         })
             .then(data => {
                 if(data) {
                     var token = jwt.sign({
                         _id: data._id
-                    }, 'qw')
-                    return res.redirect('back', {
-                        
+                    }, 'mk', { expiresIn : '30s'})
+                    return res.json({
+                        message: 'Login successful',
+                        token: token
                     })
-
                 }else{
                     res.json('dang nhap that bai')
                 }
-
-                
             })
             .catch(next);
     }
