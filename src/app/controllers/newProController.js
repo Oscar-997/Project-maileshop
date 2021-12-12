@@ -1,7 +1,7 @@
 const Fabric = require('../../app/models/Fabric');
 const { multipleMongooseToObject } = require('../../util/mongoose');
 const { mongooseToObject } = require('../../util/mongoose');
-const PAGE_SIZE = 6;
+const PAGE_SIZE = 9;
 
 class newProController {
     // [GET] newPro
