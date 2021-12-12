@@ -141,8 +141,6 @@ class adminController {
             .catch(next);
 
     }
-
-    //
 }
 
 module.exports = new adminController();
