@@ -4,6 +4,7 @@ const { engine } = require('express-handlebars')
 const app = express();
 const methodOverride = require('method-override')
 const morgan = require('morgan')
+const dotenv = require('dotenv');
 const port = 3000;
 
 
@@ -11,6 +12,8 @@ const route = require('./routes/index.js');
 const db = require('./config/db/index')
 
 db.connect()
+
+dotenv.config()
 
 // app.use(morgan('combined'))
 

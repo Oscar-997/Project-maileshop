@@ -15,14 +15,14 @@
     "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "express-handlebars": "^6.0.2",
     "jsonwebtoken": "^8.5.1",
     "method-override": "^3.0.0",
     "mongoose": "^6.0.13",
     "mongoose-delete": "^0.5.4",
-    "mongoose-slug-generator": "^1.0.4",
-    "paginationjs": "^2.1.5"
+    "mongoose-slug-generator": "^1.0.4"
   },
   "devDependencies": {
     "method": "^2.0.0",
