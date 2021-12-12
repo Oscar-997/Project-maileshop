@@ -5,6 +5,7 @@ const app = express();
 const methodOverride = require('method-override')
 const morgan = require('morgan')
 const dotenv = require('dotenv');
+const cookieParser = require('cookie-parser')
 const port = 3000;
 
 
@@ -16,6 +17,8 @@ db.connect()
 dotenv.config()
 
 // app.use(morgan('combined'))
+
+app.use(cookieParser())
 
 app.use(methodOverride('_method'))
 
