@@ -17,5 +17,7 @@ router.delete('/:id/forceDelete', adminController.forceDelete)
 router.post('/handle-form-actions', adminController.handleFormActions)
 router.post('/handle-restore-and-forceDelete', adminController.handleRestoreAndForceDelete)
 router.get('/userList', adminController.userList)
+router.get('/:id/editUser', adminController.editUser)
+router.put('/:id/updateUser', adminController.updateUser)
 
 module.exports = router
