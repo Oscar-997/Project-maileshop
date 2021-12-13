@@ -36,6 +36,7 @@
                 <th scope="col">STT</th>
                 <th scope="col">Tên user</th>
                 <th scope="col">Password</th>
+                <th scope="col">Quyền sử dụng</th>
                 <th scope="col">Quản lý</th>
             </tr>
             </thead>
@@ -52,8 +53,9 @@
                 </th>
                 <td>{{this.username}}</td>
                 <td>{{this.password}}</td>
+                <td>{{this.role}}</td>
                 <td>
-                  <a href="/admin/{{this._id}}/editProduct" class="btn btn-link text-decoration-none">Sửa</a>
+                  <a href="/admin/{{this._id}}/editUser" class="btn btn-link text-decoration-none">Sửa</a>
                   <a href="" class="btn btn-link text-decoration-none" data-bs-toggle="modal" data-bs-target="#deleteFabricModal"
                   data-id="{{this._id}}">
                     Xóa
