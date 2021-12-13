@@ -1,0 +1,32 @@
+<!-- top navigation bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container-fluid">
+            {{> adminHeader}}
+        </div>
+    </nav>
+    <!-- top navigation bar -->
+    <!-- offcanvas -->
+    {{> adminOffcanvas }}
+
+    <main class="mt-5 pt-3">
+        <div class="container-fluid">
+            <div class="mt-4">
+                <h3>Sửa thông tin Admin</h3>
+                <form method="POST" action="/admin/{{data._id}}/updateUser?_method=PUT">
+                    <div class="form-group">
+                        <label for="name">Tên sản phẩm</label>
+                        <input type="text" class="form-control" id="name" name="name">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Mật khẩu</label>
+                        <input type="text" class="form-control" id="password" name="password">
+                    </div>
+                    <div class="form-group">
+                        <label for="role">Quyền sử dụng</label>
+                        <input type="text" class="form-control" id="role" name="role">
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-4">Áp dụng</button>
+                </form>
+            </div>
+        </div>
+    </main>
