@@ -141,6 +141,23 @@ class adminController {
             .catch(next);
 
     }
+
+    // [GET] //admin/id/editUser
+
+    editUser(req, res, next) {
+        User.findById(req.params.id)
+            .then(data => res.render('./admin/editUser.hbs', {
+                data: mongooseToObject(data)
+            }))
+            .catch(next);
+    }
+
+    //[PUT] admin/:id/updataUser 
+    updateUser(req, res, next) {
+        User.updateOne({_id: req.params.id}, req.body)
+            .then(() => res.redirect('/admin/userList'))
+            .catch(next);
+    }
 }
 
 module.exports = new adminController();
