@@ -45,7 +45,7 @@ class userController {
                 if(data) {
                     var token = jwt.sign({
                         _id: data._id
-                    }, 'mk', { expiresIn : '30s'})
+                    }, 'mk')
                     return res.json({
                         message: 'Login successful',
                         token: token
