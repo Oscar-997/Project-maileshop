@@ -6,7 +6,7 @@ const userRouter = require('./user')
 
 const authMiddleware = require('../app/middleware/auth.middleware')
 
-const isAuth = authMiddleware.isAuth
+const checkLogin = authMiddleware.checkLogin
 
 
 function route(app) {
@@ -15,7 +15,7 @@ function route(app) {
     
     app.use('/newPro', newProRouter)
 
-    app.use('/admin/', isAuth ,adminRouter)
+    app.use('/admin/', checkLogin ,adminRouter)
     
     app.use('/cart', cartRouter)
 
