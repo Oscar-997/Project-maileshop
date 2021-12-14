@@ -75,7 +75,8 @@
         }
       })
         .then(data => {
-          setCookie('token', data.token, 1)
+          setCookie('token', data.token, 1);
+          window.location.href = "/admin"
         })
         .catch(error => {
           console.log(error)
