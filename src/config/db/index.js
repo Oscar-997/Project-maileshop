@@ -2,7 +2,7 @@ const mongoose = require('mongoose') // import thư viện mongoose để quản
 
 async function connect() {// tạo 1 hàm bất đồng bộ async tên connect
     try {// connect mongoose với địa chỉ ib của mongodb để có thể quản lý và xuất dữ liệu
-        await mongoose.connect('mongodb://127.0.0.1:27017/fabric-maileshop', { 
+        await mongoose.connect(process.env.MONGODB_URL, { 
             useNewUrlParser: true,
             useUnifiedTopology: true
         });

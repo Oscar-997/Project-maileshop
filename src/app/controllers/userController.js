@@ -45,7 +45,7 @@ class userController {
                 if(data) {
                     var token = jwt.sign({
                         _id: data._id
-                    }, 'mk')
+                    }, process.env.JWT_SECRET_KEY )
                     return res.json({
                         message: 'Login successful',
                         token: token
