@@ -19,5 +19,7 @@ router.post('/handle-restore-and-forceDelete', adminController.handleRestoreAndF
 router.get('/userList', adminController.userList)
 router.get('/:id/editUser', adminController.editUser)
 router.put('/:id/updateUser', adminController.updateUser)
+router.get('/creat/slider', adminController.creatSlider)
+router.post('/store/slider', adminController.storeSlider)
 
 module.exports = router

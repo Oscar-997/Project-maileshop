@@ -1,0 +1,29 @@
+<!-- top navigation bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container-fluid">
+            {{> adminHeader}}
+        </div>
+    </nav>
+    <!-- top navigation bar -->
+    <!-- offcanvas -->
+    {{> adminOffcanvas }}
+
+    <main class="mt-5 pt-3">
+        <div class="container-fluid">
+            <div class="mt-4">
+                <h3>Đăng sản phẩm mới</h3>
+                <form method="POST" action="/admin/store/slider">
+                    <div class="form-group">
+                        <label for="image">Hình ảnh</label>
+                        <input type="text" class="form-control" id="image" name="image">
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Mô tả</label>
+                        <input type="text" class="form-control" id="description" name="description">
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-4">Đăng Sliders</button>
+                </form>
+            </div>
+
+        </div>
+    </main>

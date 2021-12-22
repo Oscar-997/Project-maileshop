@@ -6,25 +6,17 @@ const slug = require('mongoose-slug-generator'); // call đến plugin tải v�
 const mongooseDelete = require('mongoose-delete');
 
 const Cart = new Schema({
-    
-    products: [
-    {
-        productId: String,
-        quantity: Number,
-        name: String,
-        price: Number
-    }
-    ],
-    active: {
-        type: Boolean,
-        default: true
-    },
-    modifiedOn: {
-        type: Date,
-        default: Date.now
-    }
+        idUser: String,
+        idFabric: String,
+        nameFabric: String,
+        priceFabric: String,
+        count: Number,
+        image: String
 },
-    { timestamps: true }
+    { 
+        timestamps: true,
+        collation: 'carts'
+    }
 )
 
 mongoose.plugin(slug)

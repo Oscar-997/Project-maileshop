@@ -5,7 +5,7 @@ const app = express();
 const methodOverride = require('method-override')
 const morgan = require('morgan')
 const cookieParser = require('cookie-parser')
-const dotenv = require('dotenv').config()
+const dotenv = require('dotenv').config({ path: __dirname + '/.env'})
 const port = process.env.PORT;
 
 

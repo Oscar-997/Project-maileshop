@@ -33,7 +33,7 @@ class newProController {
         }else{
             // get all
 
-            Fabric.find()
+            Fabric.find({})
                 .then(fabric => res.render('./newProduct/newPro.hbs', {
                     fabric: multipleMongooseToObject(fabric)
                 }))

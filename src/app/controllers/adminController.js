@@ -1,5 +1,6 @@
 const Fabric = require('../../app/models/Fabric');
 const User = require('../../app/models/User');
+const Slider = require('../models/Slider')
 const { multipleMongooseToObject } = require('../../util/mongoose');
 const { mongooseToObject } = require('../../util/mongoose');
 
@@ -158,6 +159,21 @@ class adminController {
             .then(() => res.redirect('/admin/userList'))
             .catch(next);
     }
+
+    //[GET] admin/creat/slider
+    creatSlider(req, res, next) {
+        res.render('./admin/creatSlider')
+    }
+
+    //[POST] admin/store/slider
+    storeSlider(req, res, next) {
+        const formData = req.body
+        const slider = new Slider(formData)
+        slider.save()
+            .then(() => {res.redirect('back')})
+            .catch(next)
+    }
+
 }
 
 module.exports = new adminController();
