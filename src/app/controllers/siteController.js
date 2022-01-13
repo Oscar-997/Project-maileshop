@@ -4,13 +4,9 @@ const { multipleMongooseToObject } = require('../../util/mongoose');
 class SiteController {
     // [GET] home
     index(req, res, next) {
-        res.render('home')
-    }
-
-    slider(req, res, next) {
         Slider.find({})
-            .then(slider => res.render('./partials/slide.hbs', {
-                slider: multipleMongooseToObject(slider)
+            .then(sliders => res.render('home', {
+                sliders: multipleMongooseToObject(sliders)
             }))
             .catch(next)
     }

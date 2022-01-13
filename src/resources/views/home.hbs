@@ -6,10 +6,47 @@
     <div class="content-web">
 
         {{!-- slides --}}
-        {{> slide}}
+       <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                {{#each sliders}}
+                <div class="carousel-item {{#if active}}active{{/if}}"  data-bs-interval="10000">
+                    <img src="{{this.image}}" class="d-block w-100 img-slides" alt="">
+                </div>
+                {{/each}}
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
 
-        {{!-- heading content --}}
-        {{> headingContent}}
+        {{!-- info --}}
+        <div class="container">
+            <div class="row mt-4">
+                <div class="col-lg-4">
+                    <img class="rounded-circle" src="http://localhost:3000/img/heading-content-img1.jpg" alt="Generic placeholder image" width="140" height="140">
+                    <h2>Heading</h2>
+                    <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
+                    <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+                </div>
+                <div class="col-lg-4">
+                    <img class="rounded-circle" src="http://localhost:3000/img/heading-content-img2.jpg" alt="Generic placeholder image" width="140" height="140">
+                    <h2>Heading</h2>
+                    <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh.</p>
+                    <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+                </div>
+                <div class="col-lg-4">
+                    <img class="rounded-circle" src="http://localhost:3000/img/heading-content-img3.jpg" alt="Generic placeholder image" width="140" height="140">
+                    <h2>Heading</h2>
+                    <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+                    <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+                </div>
+            </div>
+        </div>
 
         {{!-- Contact form --}}
         {{> contactForm}}

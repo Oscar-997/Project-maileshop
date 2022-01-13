@@ -11,7 +11,11 @@ class adminController {
     }
     // [GET] admin/sliders
     adminSliders(req, res, next) {
-        res.render('./admin/sliders.hbs')
+        Slider.find({})
+            .then(sliders => res.render('./admin/sliders.hbs', {
+                sliders: multipleMongooseToObject(sliders)
+            }))
+            .catch(next)
     }
 
     // [GET] admin/listProducts and [count delete] đếm các file đã bị xóa mềm vào thùng rác
@@ -170,9 +174,17 @@ class adminController {
         const formData = req.body
         const slider = new Slider(formData)
         slider.save()
-            .then(() => {res.redirect('back')})
+            .then(() => {res.redirect('/admin/sliders')})
             .catch(next)
     }
+
+
+    //[GET] admin/info
+    info(req, res, next) {
+        res.render('./admin/info.hbs')
+    }
+
+    
 
 }
 

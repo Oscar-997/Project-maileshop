@@ -21,5 +21,6 @@ router.get('/:id/editUser', adminController.editUser)
 router.put('/:id/updateUser', adminController.updateUser)
 router.get('/creat/slider', adminController.creatSlider)
 router.post('/store/slider', adminController.storeSlider)
+router.get('/info', adminController.info)
 
 module.exports = router

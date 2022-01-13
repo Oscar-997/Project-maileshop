@@ -12,35 +12,30 @@
     <main class="mt-5 pt-3">
         <div class="container-fluid">
           {{!-- up slider --}}
-          <a class="btn btn-primary" href="/admin/creat/slider" role="button">Cập nhật sliders</a>
+          <a class="btn btn-primary" href="/admin/creat/slider" role="button">Thêm sliders mới</a>
             {{!-- admin slider --}}
             <table class="table">
               <thead>
                 <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">First</th>
-                  <th scope="col">Last</th>
-                  <th scope="col">Handle</th>
+                  <th scope="col">STT</th>
+                  <th scope="col">Mô tả hình ảnh</th>
+                  <th scope="col">Hình ảnh</th>
+                  <th scope="col">Trang thái active</th>
                 </tr>
               </thead>
               <tbody>
+                {{#each sliders}}
                 <tr>
-                  <th scope="row">1</th>
-                  <td>Mark</td>
-                  <td>Otto</td>
-                  <td>@mdo</td>
+                  <th scope="row">{{sum @index  1}}</th>
+                  <td>{{this.description}}</td>
+                  <td>
+                    <img class="img-products" src="{{this.image}}" alt="">
+                  </td>
+                  <td>
+                    {{this.active}}
+                  </td>
                 </tr>
-                <tr>
-                  <th scope="row">2</th>
-                  <td>Jacob</td>
-                  <td>Thornton</td>
-                  <td>@fat</td>
-                </tr>
-                <tr>
-                  <th scope="row">3</th>
-                  <td colspan="2">Larry the Bird</td>
-                  <td>@twitter</td>
-                </tr>
+                {{/each}}
               </tbody>
             </table>
         </div>

@@ -4,7 +4,6 @@ const router = express.Router();
 const siteController = require('../app/controllers/SiteController')
 
 router.get('/', siteController.index)
-router.get('/', siteController.slider)
 
 
 module.exports = router
