@@ -1,6 +1,7 @@
 const Fabric = require('../../app/models/Fabric');
 const User = require('../../app/models/User');
 const Slider = require('../models/Slider')
+const Info = require('../models/Info')
 const { multipleMongooseToObject } = require('../../util/mongoose');
 const { mongooseToObject } = require('../../util/mongoose');
 
@@ -181,10 +182,26 @@ class adminController {
 
     //[GET] admin/info
     info(req, res, next) {
-        res.render('./admin/info.hbs')
+        Info.find({})
+            .then(info => res.render('./admin/info.hbs', {
+                info: multipleMongooseToObject(info)
+            }))
+            .catch(next);
     }
 
-    
+    //[GET] admin/creat/info
+    creatInfo(req, res, next) {
+        res.render('./admin/creatInfo.hbs')
+    }
+
+    //[POST] admin/store/info
+    storeInfo(req, res, next) {
+        const formData = req.body
+        const info = new Info(formData)
+        info.save()
+        .then(() => {res.redirect('/admin/info')})
+        .catch(next)
+    }
 
 }
 

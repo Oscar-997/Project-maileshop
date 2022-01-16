@@ -22,5 +22,7 @@ router.put('/:id/updateUser', adminController.updateUser)
 router.get('/creat/slider', adminController.creatSlider)
 router.post('/store/slider', adminController.storeSlider)
 router.get('/info', adminController.info)
+router.get('/creat/info', adminController.creatInfo)
+router.post('/store/info', adminController.storeInfo)
 
 module.exports = router
