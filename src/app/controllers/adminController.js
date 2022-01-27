@@ -2,6 +2,7 @@ const Fabric = require('../../app/models/Fabric');
 const User = require('../../app/models/User');
 const Slider = require('../models/Slider')
 const Info = require('../models/Info')
+const InfoShop = require('../models/InfoShop')
 const { multipleMongooseToObject } = require('../../util/mongoose');
 const { mongooseToObject } = require('../../util/mongoose');
 
@@ -203,6 +204,25 @@ class adminController {
         .catch(next)
     }
 
+    //[GET] /admin/homePage
+    homePage(req, res, next) {
+        res.render('./admin/homePage.hbs')
+    }
+
+    //[GET] /admin/creat/updateLogo
+    logo(req, res, next) {
+        res.render('./admin/updateLogo.hbs')
+    }
+    
+    //[POST] /admin/store/logo
+    storeLogo(req, res, next) {
+        const formData = req.body
+        const logo = new InfoShop(formData)
+        logo.save() 
+            .then(() =>  {res.redirect('back')})
+            .catch(next)
+    }
+    
     
 
 }

@@ -24,5 +24,8 @@ router.post('/store/slider', adminController.storeSlider)
 router.get('/info', adminController.info)
 router.get('/creat/info', adminController.creatInfo)
 router.post('/store/info', adminController.storeInfo)
+router.get('/homePage', adminController.homePage)
+router.get('/creat/logo', adminController.logo)
+router.post('/store/logo', adminController.storeLogo)
 
 module.exports = router
