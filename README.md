@@ -1,5 +1,10 @@
 Xin giới thiệu về Project về 1 trang web bán vải lấy chủ đề từ nhà mình đang bán mặc hàng này.
 
+-- FRONT-END : Templace engine Express-handlebars
+-- BACK-END: + NODEJS, EXPRESSJS, 
+             + DATABASE: MONGODB, MONGOOSE
+             + AUTH: JWT
+
 -- PHẦN CLINET WEB  --
 
 -- Trang chủ --
