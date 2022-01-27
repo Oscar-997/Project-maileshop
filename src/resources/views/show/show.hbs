@@ -4,7 +4,7 @@
     <div class="container">
         <div class="single_product">
             <div class="container-fluid" style=" background-color: #fff; padding: 11px;">
-                <form  action="/cart/add" method="post">
+                <form>
                     <div class="row">
                         <div class="col-lg-2 order-lg-1 order-2">
                             <ul class="image_list">
@@ -66,13 +66,13 @@
                                         <div class="col-md-7"></div>
                                     </div>
                                 </div>
-                                <form class="product-form">
+                                <div class="product-form">
                                     <div class="hidden-select"><select class="hide product-variants"></select></div>
                                     <input type="hidden" name="id"/>
                                     <div class="d-flex align-items-center mt-4">
                                         <input type="hidden" name="quantity" id="realQuantity quantity" value="1" />
                                         <input type='button' value='-' class='qtyminus btn-minus' field='fabricquantity' />
-                                        <input type="text" class="units-quantity fabric-units-input" value="1" name="fabricquantity" />
+                                        <input type="text" id="quantity-fabrics" class="units-quantity fabric-units-input" value="1" name="fabricquantity" />
                                         <input type='button' value='+' class='qtyplus btn-plus' field='fabricquantity' />
                                         <div class="length-stats ms-4" >
                                             <span class="large-text">
@@ -84,7 +84,7 @@
                                     </div>
                                         <div class="add-to-cart mt-4 d-flex align-items-center">
                                             <div class="button-margin" data-id="{{fabrics._id}}">
-                                                <button type="submit" class="shop-button add-to-cart">
+                                                <button id="button-add-to-cart" type="button" class="shop-button add-to-cart">
                                                     Thêm vào giỏ hàng
                                                 </button>
                                             </div>
@@ -96,7 +96,7 @@
                                             <div id="variant-inventory"></div>
                                         </div>
                                     </div>
-                                </form>
+                                </div>
                         </div>
                     </form>
                 </div>
@@ -111,128 +111,176 @@ document.addEventListener("DOMContentLoaded", function() {
 
     $(document ).ready(function() {
     
-            $(".units-quantity").blur();
-            
-            delayedCalculation()
-            
-            $(".units-quantity").keyup(function(event) {
-                calculate(getUnits())
-            });
-            
-            $("#currencies").change(function() {
-                $('#total-price-result').text('-')
-                delayedCalculation();
-            });
-            
-            function delayedCalculation() {
-                setTimeout(function(){
-                    calculate(getUnits());
-                }, 100);
-            }
+        $(".units-quantity").blur();
+        
+        delayedCalculation()
+        
+        $(".units-quantity").keyup(function(event) {
+            calculate(getUnits())
+        });
+        
+        $("#currencies").change(function() {
+            $('#total-price-result').text('-')
+            delayedCalculation();
+        });
+        
+        function delayedCalculation() {
+            setTimeout(function(){
+                calculate(getUnits());
+            }, 100);
+        }
 
-            function getUnits() {
-                units = Number($(".units-quantity").val());
-                if (isNaN(units)) {
-                return 0;
-                }
-                else {
-                var currentVal = $('.fabric-units-input').val() * 4;
-                
-                //console.log('this: ' + currentVal);
-                $('#realQuantity').val(currentVal);
-                return units;
-                };
+        function getUnits() {
+            units = Number($(".units-quantity").val());
+            if (isNaN(units)) {
+            return 0;
             }
+            else {
+            var currentVal = $('.fabric-units-input').val() * 4;
             
-            function getUnitPrice() {
-                var priceText = $(".product-price-minimum").text()
-                var currencySymbol = priceText.charAt(0)
-                var price = priceText.match(/.*?[\$€£](.*)\ */)
-                if (priceText) {
-                    if(price == null) {
-                        var priceNice = priceText.split(currencySymbol);
-                        var floatPrice = parseFloat(priceNice[1])
-                        var roundedPrice = round(floatPrice, 2)
-                        return {currency: currencySymbol, price: roundedPrice}	
-                    }else {
-                        var floatPrice = parseFloat(price[1])
-                        var roundedPrice = round(floatPrice, 2)
-                        return {currency: currencySymbol, price: roundedPrice}
-                    }
-                }
-            }
-            
-            function round(value, decimals) {
-                return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
-            }
-            
-            function calculate(units) {
-                var units = units;
-                if (units > 5) {
-                $('.max-unit-warning').removeClass('hide')
-                }
-                else {
-                $('.max-unit-warning').addClass('hide')
-                }
-                var metres = (units)
-                var yards = (units * 1.09361)
-                var unitPriceObject = getUnitPrice()
-                var totalPrice = (units * unitPriceObject.price *1)
-                var input = $('.units-quantity').val()
-                $('#metre-result').text(metres.toFixed(2))
-                $('#yard-result').text(yards.toFixed(2))
-                $('#input-val').text(input + 'Metre');
-                if (totalPrice) {
-                var decoratedPrice = unitPriceObject.currency + totalPrice.toFixed(0)
-                $('#total-price-result').text(decoratedPrice)
-                }
-                else {
-                $('#total-price-result').text('-')
+            //console.log('this: ' + currentVal);
+            $('#realQuantity').val(currentVal);
+            return units;
+            };
+        }
+        
+        function getUnitPrice() {
+            var priceText = $(".product-price-minimum").text()
+            var currencySymbol = priceText.charAt(0)
+            var price = priceText.match(/.*?[\$€£](.*)\ */)
+            if (priceText) {
+                if(price == null) {
+                    var priceNice = priceText.split(currencySymbol);
+                    var floatPrice = parseFloat(priceNice[1])
+                    var roundedPrice = round(floatPrice, 2)
+                    return {currency: currencySymbol, price: roundedPrice}	
+                }else {
+                    var floatPrice = parseFloat(price[1])
+                    var roundedPrice = round(floatPrice, 2)
+                    return {currency: currencySymbol, price: roundedPrice}
                 }
             }
+        }
+        
+        function round(value, decimals) {
+            return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
+        }
+        
+        function calculate(units) {
+            var units = units;
+            if (units > 5) {
+            $('.max-unit-warning').removeClass('hide')
+            }
+            else {
+            $('.max-unit-warning').addClass('hide')
+            }
+            var metres = (units)
+            var yards = (units * 1.09361)
+            var unitPriceObject = getUnitPrice()
+            var totalPrice = (units * unitPriceObject.price *1)
+            var input = $('.units-quantity').val()
+            $('#metre-result').text(metres.toFixed(2))
+            $('#yard-result').text(yards.toFixed(2))
+            $('#input-val').text(input + 'Metre');
+            if (totalPrice) {
+            var decoratedPrice = unitPriceObject.currency + totalPrice.toFixed(0)
+            $('#total-price-result').text(decoratedPrice)
+            }
+            else {
+            $('#total-price-result').text('-')
+            }
+        }
+        
+        // This button will increment the value
+        $('.qtyplus').click(function(e){
+            //console.log('plus');
+            // Stop acting like a button
+            e.preventDefault();
+            // Get the field name
+            fieldName = $(this).attr('field');
+            // Get its current value
+            var currentVal = parseFloat($('input[name='+fieldName+']').val());
             
-            // This button will increment the value
-            $('.qtyplus').click(function(e){
-                //console.log('plus');
-                // Stop acting like a button
-                e.preventDefault();
-                // Get the field name
-                fieldName = $(this).attr('field');
-                // Get its current value
-                var currentVal = parseFloat($('input[name='+fieldName+']').val());
-                
-                // If is not undefined
-                if (!isNaN(currentVal)) {
-                    // Increment
-                    $('input[name='+fieldName+']').val(currentVal + 0.5);
-                } else {
-                    // Otherwise put a 0 there
-                    $('input[name='+fieldName+']').val(0);
-                }
-                calculate(getUnits())
-            });
+            // If is not undefined
+            if (!isNaN(currentVal)) {
+                // Increment
+                $('input[name='+fieldName+']').val(currentVal + 0.5);
+            } else {
+                // Otherwise put a 0 there
+                $('input[name='+fieldName+']').val(0);
+            }
+            calculate(getUnits())
+        });
 
 
-            // This button will decrement the value till 0
-            $(".qtyminus").click(function(e) {
-                //console.log('minus');
-                // Stop acting like a button
-                e.preventDefault();
-                // Get the field name
-                fieldName = $(this).attr('field');
-                // Get its current value
-                var currentVal = parseFloat($('input[name='+fieldName+']').val());
-                // If it isn't undefined or its greater than 0
-                if (!isNaN(currentVal) && currentVal > 0) {
-                    // Decrement one
-                    $('input[name='+fieldName+']').val(currentVal - 0.5);
-                } else {
-                    // Otherwise put a 0 there
-                    $('input[name='+fieldName+']').val(0);
+        // This button will decrement the value till 0
+        $(".qtyminus").click(function(e) {
+            //console.log('minus');
+            // Stop acting like a button
+            e.preventDefault();
+            // Get the field name
+            fieldName = $(this).attr('field');
+            // Get its current value
+            var currentVal = parseFloat($('input[name='+fieldName+']').val());
+            // If it isn't undefined or its greater than 0
+            if (!isNaN(currentVal) && currentVal > 0) {
+                // Decrement one
+                $('input[name='+fieldName+']').val(currentVal - 0.5);
+            } else {
+                // Otherwise put a 0 there
+                $('input[name='+fieldName+']').val(0);
+            }
+            calculate(getUnits())   
+        });
+        
+        //set cookie
+        function setCookie(cname, cvalue, exdays) {
+        const d = new Date();
+        d.setTime(d.getTime() + (exdays*24*60*60*1000));
+        let expires = "expires="+ d.toUTCString();
+        document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+        }
+
+        // get cookie
+
+        function getCookie(cname) {
+        let name = cname + "=";
+        let decodedCookie = decodeURIComponent(document.cookie);
+        let ca = decodedCookie.split(';');
+        for(let i = 0; i <ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+            }
+        }
+        return "";
+        }
+
+        $('#button-add-to-cart').click(function() {
+            const totalPrice = Number($('#total-price-result').text())
+            const quantity = Number($('#quantity-fabrics').val())
+
+            $.ajax({
+                url: '/cart/:id/add-to-cart',
+                type: 'POST',
+                data: {
+                    totalPrice,
+                    quantity,
                 }
-                calculate(getUnits())   
-            });
+                .then(data => {
+                    setCookie('product', data.product, 1)
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+            })
+        })
+            
     });
+    
 
 })
 </script>

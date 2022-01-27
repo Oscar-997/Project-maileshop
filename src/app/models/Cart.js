@@ -6,12 +6,13 @@ const slug = require('mongoose-slug-generator'); // call đến plugin tải v�
 const mongooseDelete = require('mongoose-delete');
 
 const Cart = new Schema({
-        idUser: String,
-        idFabric: String,
-        nameFabric: String,
-        priceFabric: String,
-        count: Number,
-        image: String
+    owner: {type: mongoose.Schema.Types.ObjectId, ref: 'user'},
+    totalPrice: {type: Number, default: 0},
+    items: [{
+        item: {type: mongoose.Schema.Types.ObjectID, ref: 'Fabric'},
+        qty: {type: Number, default: 1},
+        price: {type: Number, default: 0}
+    }],
 },
     { 
         timestamps: true,

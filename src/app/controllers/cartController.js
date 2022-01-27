@@ -11,10 +11,9 @@ class cartController {
     }
 
     //[Post] /add-to-cart
-    addToCart(req, res, next){
+    addToCart(req, res, next) {
         
     }
-    
 }
 
 module.exports = new cartController();

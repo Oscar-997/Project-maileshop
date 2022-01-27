@@ -6,11 +6,11 @@ const mongooseDelete = require('mongoose-delete');
 
 
 const Fabric = new Schema({
-    name: {type: 'string', required: true},
-    description: {type: 'string'},
-    image: {type: 'string'},
+    name: {type: String, required: true},
+    description: {type: String},
+    image: {type: String},
     slug: { type: String, slug: 'name', unique: true},
-    price: {type: String}
+    price: {type: Number}
 },{
     timestamps:true,
     collection: 'fabrics'
