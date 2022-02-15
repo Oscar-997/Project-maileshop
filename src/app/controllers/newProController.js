@@ -1,6 +1,6 @@
-const Fabric = require('../../app/models/Fabric');
-const { multipleMongooseToObject } = require('../../util/mongoose');
-const { mongooseToObject } = require('../../util/mongoose');
+const Fabric = require('../models/Fabric');
+const InfoShop = require('../models/InfoShop')
+const { multipleMongooseToObject, mongooseToObject } = require('../../util/mongoose');
 const PAGE_SIZE = 9;
 
 class newProController {
@@ -50,6 +50,9 @@ class newProController {
             })
             .catch(next);
     }
+
+
+    
 }
 
 module.exports = new newProController();
